@@ -1,5 +1,15 @@
 import React from 'react';
-import {IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonBackButton} from '@ionic/react';
+import {
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonBackButton,
+    IonList,
+    IonItem, IonLabel
+} from '@ionic/react';
 import { useParams } from 'react-router-dom'
 import {COURSE_DATA} from "./Courses";
 
@@ -19,7 +29,15 @@ const CourseGoals: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <h2>This works - course goals page!</h2>
+                {selectedCourse &&
+                    <IonList>
+                        {selectedCourse.goals.map(goal => (
+                            <IonItem key={goal.id} lines="full">
+                                <IonLabel>{goal.text}</IonLabel>
+                            </IonItem>
+                        ))}
+                    </IonList>
+                }
             </IonContent>
         </IonPage>
     )
