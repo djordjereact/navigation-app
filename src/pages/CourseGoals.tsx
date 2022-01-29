@@ -8,11 +8,20 @@ import {
     IonToolbar,
     IonBackButton,
     IonList,
-    IonItem, IonLabel, IonIcon, IonItemSliding, IonItemOptions, IonItemOption
+    IonItem,
+    IonLabel,
+    IonIcon,
+    IonItemSliding,
+    IonItemOptions,
+    IonItemOption,
+    IonButton,
+    IonFab,
+    IonFabButton,
+    isPlatform
 } from '@ionic/react';
 import { useParams } from 'react-router-dom'
 import {COURSE_DATA} from "./Courses";
-import {create, trash} from "ionicons/icons";
+import {addOutline, create, trash} from "ionicons/icons";
 
 const CourseGoals: React.FC = () => {
     const selectedCourseId = useParams<{courseId: string}>().courseId;
@@ -28,14 +37,23 @@ const CourseGoals: React.FC = () => {
         console.log('Edited')
     };
 
+    const startAddGoalHandler = () => {
+        console.log('Adding goal')
+    }
+
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonBackButton  defaultHref="/"/>
+                        <IonBackButton  defaultHref="/courses/list"/>
                     </IonButtons>
                     <IonTitle>{selectedCourse ? selectedCourse.title : 'No course find!'}</IonTitle>
+                    {!isPlatform('android') && <IonButtons slot="end">
+                        <IonButton onClick={startAddGoalHandler}>
+                            <IonIcon slot="icon-only" icon={addOutline}/>
+                        </IonButton>
+                    </IonButtons>}
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -62,6 +80,12 @@ const CourseGoals: React.FC = () => {
                             </IonItemSliding>
                         ))}
                     </IonList>
+                }
+                {isPlatform('android') && <IonFab horizontal="end" vertical="bottom" slot="fixed">
+                    <IonFabButton color="secondary" onClick={startAddGoalHandler}>
+                        <IonIcon icon={addOutline}/>
+                    </IonFabButton>
+                </IonFab>
                 }
             </IonContent>
         </IonPage>
