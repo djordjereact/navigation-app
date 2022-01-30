@@ -27,6 +27,7 @@ const CourseGoals: React.FC = () => {
     const [selectedGoal, setSelectedGoal] = useState<any>();
     const coursesCtx = useContext(CoursesContext);
 
+    const selectedGoalIdRef = useRef<string | null>(null);
 
     const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
 
@@ -34,12 +35,14 @@ const CourseGoals: React.FC = () => {
 
     const selectedCourse = coursesCtx.courses.find(c => c.id === selectedCourseId);
 
-    const startDeleteGoalHandler = () => {
+    const startDeleteGoalHandler = (goalId: string) => {
         setStartedDeleting(true);
+        selectedGoalIdRef.current = goalId;
     };
 
     const deleteGoalHandler = () => {
         setStartedDeleting(false);
+        coursesCtx.deleteGoal(selectedCourseId, selectedGoalIdRef.current!);
         setToastMessage('Deleted goal!');
     };
 
@@ -64,8 +67,12 @@ const CourseGoals: React.FC = () => {
         setSelectedGoal(null);
     };
 
-    const addGoalHandler = ( text: string ) => {
-        coursesCtx.addGoal( selectedCourseId, text);
+    const saveGoalHandler = ( text: string ) => {
+        if (selectedGoal) {
+            coursesCtx.updateGoal(selectedCourseId, selectedGoal.id, text);
+        } else {
+            coursesCtx.addGoal( selectedCourseId, text);
+        }
         setIsEditing(false);
     };
 
@@ -75,7 +82,7 @@ const CourseGoals: React.FC = () => {
                 show={isEditing}
                 onCancel={cancelEditGoalHandler}
                 editedGoal={selectedGoal}
-                onSave={addGoalHandler}
+                onSave={saveGoalHandler}
             />
             <IonToast
                 isOpen={!!toastMessage}
@@ -128,7 +135,7 @@ const CourseGoals: React.FC = () => {
                                 <EditableGoalItem
                                     key={goal.id}
                                     slidingRef={slidingOptionsRef}
-                                    onStartDelete={startDeleteGoalHandler}
+                                    onStartDelete={startDeleteGoalHandler.bind(null, goal.id)}
                                     onStartEdit={startEditGoalHandler.bind(null, goal.id)}
                                     text={goal.text} />
                             ))}
