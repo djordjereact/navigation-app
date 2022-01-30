@@ -77,6 +77,26 @@ const CourseGoals: React.FC = () => {
         setIsEditing(false);
     };
 
+    let content = <h2 className="ion-text-center">No goals found!</h2>
+    if (!selectedCourse) {
+        content = <h2 className="ion-text-center">No course found!</h2>
+    }
+
+    if (selectedCourse && selectedCourse.goals.length > 0) {
+        content = (
+            <IonList>
+                {selectedCourse.goals.map(goal => (
+                    <EditableGoalItem
+                        key={goal.id}
+                        slidingRef={slidingOptionsRef}
+                        onStartDelete={startDeleteGoalHandler.bind(null, goal.id)}
+                        onStartEdit={startEditGoalHandler.bind(null, goal.id)}
+                        text={goal.text} />
+                ))}
+            </IonList>
+        );
+    }
+
     return (
         <React.Fragment>
             <EditModal
@@ -127,18 +147,7 @@ const CourseGoals: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
-                    {selectedCourse && (
-                        <IonList>
-                            {selectedCourse.goals.map(goal => (
-                                <EditableGoalItem
-                                    key={goal.id}
-                                    slidingRef={slidingOptionsRef}
-                                    onStartDelete={startDeleteGoalHandler.bind(null, goal.id)}
-                                    onStartEdit={startEditGoalHandler.bind(null, goal.id)}
-                                    text={goal.text} />
-                            ))}
-                        </IonList>
-                    )}
+                    {content}
                     {isPlatform('android') && (
                         <IonFab horizontal="end" vertical="bottom">
                             <IonFabButton color="secondary" onClick={startAddGoalHandler}>
