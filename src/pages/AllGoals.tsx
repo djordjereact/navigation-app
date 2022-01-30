@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     IonHeader,
     IonContent,
@@ -8,12 +8,12 @@ import {
     IonButtons,
     IonMenuButton, IonList, IonItem, IonLabel
 } from '@ionic/react';
-
-import { COURSE_DATA } from './Courses'
+import CoursesContext from "../data/courses-context";
 
 const AllGoals: React.FC = () => {
+    const coursesCtx = useContext(CoursesContext);
 
-    const goals = COURSE_DATA.map(course =>{
+    const goals = coursesCtx.courses.map(course =>{
         return course.goals.map(goal => {
             return { ...goal, courseTitle: course.title }
         });
