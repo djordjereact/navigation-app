@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -11,13 +11,29 @@ import {
     IonItem,
     IonLabel,
     IonInput,
-    IonButton
+    IonButton, IonText
 } from '@ionic/react';
 
 const AddCourseModal: React.FC<{
     show: boolean;
     onCancel: () => void;
+    onSave: (title: string) => void;
 }> = props => {
+    const titleRef = useRef<HTMLIonInputElement>(null);
+    const [error, setError] = useState('');
+
+    const saveHandler = () => {
+        const enteredTitle = titleRef.current!.value;
+
+        if (!enteredTitle || enteredTitle.toString().trim().length === 0) {
+            setError('Please enter a valid title and select a valid date.')
+            return;
+        }
+        setError('');
+
+        props.onSave(enteredTitle.toString());
+    };
+
     return (
         <IonModal isOpen={props.show}>
             <IonHeader>
@@ -31,10 +47,18 @@ const AddCourseModal: React.FC<{
                         <IonCol>
                             <IonItem>
                                 <IonLabel position="floating">Course Title</IonLabel>
-                                <IonInput type="text" />
+                                <IonInput type="text" ref={titleRef} />
                             </IonItem>
                         </IonCol>
                     </IonRow>
+                    {error &&
+                    <IonRow className="ion-text-center">
+                        <IonCol>
+                            <IonText color="danger">
+                                <p>{error}</p>
+                            </IonText>
+                        </IonCol>
+                    </IonRow>}
                     <IonRow className="ion-text-center">
                         <IonCol>
                             <IonButton color="dark" fill="clear" onClick={props.onCancel}>
@@ -42,7 +66,7 @@ const AddCourseModal: React.FC<{
                             </IonButton>
                         </IonCol>
                         <IonCol>
-                            <IonButton expand="block" color="secondary">Save</IonButton>
+                            <IonButton expand="block" color="secondary" onClick={saveHandler}>Save</IonButton>
                         </IonCol>
                     </IonRow>
                 </IonGrid>
