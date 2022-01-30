@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     IonHeader,
     IonContent,
@@ -18,7 +18,8 @@ import {
 import { addOutline } from "ionicons/icons";
 import AddCourseModal from "../components/AddCourseModal";
 import CourseItem from "../components/CourseItem";
-// import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom';
+import CoursesContext from "../data/courses-context";
 
 export const COURSE_DATA = [
     { id: 'c1', title: 'Ionic + React - The Practical Guide', goals: [
@@ -43,6 +44,8 @@ const Courses: React.FC = () => {
 
     const [isAdding, setIsAdding] = useState(false);
 
+    const coursesCtx = useContext(CoursesContext);
+
     const startAddCourseHandler = () => {
         setIsAdding(true);
     };
@@ -52,7 +55,8 @@ const Courses: React.FC = () => {
     };
 
     const courseAddHandler = (title: string) => {
-
+        coursesCtx.addCourse(title);
+        setIsAdding(false);
     };
 
     return (
@@ -73,7 +77,7 @@ const Courses: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
-                        {COURSE_DATA.map(course => (
+                        {coursesCtx.courses.map(course => (
                             <IonRow key={course.id}>
                                 <IonCol size-md="4" offset-md="4">
                                     <CourseItem title={course.title} id={course.id} />
