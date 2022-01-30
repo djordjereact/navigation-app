@@ -1,19 +1,23 @@
 import React from 'react';
 import {
-    IonButton,
-    IonCol,
+    IonModal,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
     IonContent,
     IonGrid,
-    IonHeader, IonInput,
+    IonRow,
+    IonCol,
     IonItem,
     IonLabel,
-    IonModal,
-    IonRow,
-    IonTitle,
-    IonToolbar
-} from "@ionic/react";
+    IonInput,
+    IonButton
+} from '@ionic/react';
 
-const AddCourseModal: React.FC<{show: boolean; onCancel: () => void}> = props => {
+const AddCourseModal: React.FC<{
+    show: boolean;
+    onCancel: () => void;
+}> = props => {
     return (
         <IonModal isOpen={props.show}>
             <IonHeader>
@@ -27,22 +31,25 @@ const AddCourseModal: React.FC<{show: boolean; onCancel: () => void}> = props =>
                         <IonCol>
                             <IonItem>
                                 <IonLabel position="floating">Course Title</IonLabel>
-                                <IonInput />
+                                <IonInput type="text" />
                             </IonItem>
                         </IonCol>
                     </IonRow>
                     <IonRow className="ion-text-center">
                         <IonCol>
-                            <IonButton color="dark" fill="clear" onClick={props.onCancel}>Cancel</IonButton>
+                            <IonButton color="dark" fill="clear" onClick={props.onCancel}>
+                                Cancel
+                            </IonButton>
                         </IonCol>
                         <IonCol>
-                            <IonButton color="secondary">Save</IonButton>
+                            <IonButton expand="block" color="secondary">Save</IonButton>
                         </IonCol>
                     </IonRow>
                 </IonGrid>
             </IonContent>
         </IonModal>
-    )
+    );
 };
+
 
 export default AddCourseModal;
