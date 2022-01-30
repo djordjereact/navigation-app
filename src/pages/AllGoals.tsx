@@ -13,7 +13,9 @@ import CoursesContext from "../data/courses-context";
 const AllGoals: React.FC = () => {
     const coursesCtx = useContext(CoursesContext);
 
-    const goals = coursesCtx.courses.map(course =>{
+    const goals = coursesCtx.courses.filter(course => {
+        return course.included;
+    }).map(course =>{
         return course.goals.map(goal => {
             return { ...goal, courseTitle: course.title }
         });

@@ -3,14 +3,15 @@ import CoursesContext, { Course, Goal } from "./courses-context";
 
 const CoursesContextProvider: React.FC = props => {
     const [courses, setCourses] = useState<Course[]>([
-        { id: 'c1', title: 'React - The Complete Guide', goals: [] }
+        { id: 'c1', title: 'React - The Complete Guide', goals: [], included: true }
     ]);
 
     const addCourse = (title: string) => {
         const newCourse: Course = {
             id: Math.random().toString(),
             title,
-            goals: []
+            goals: [],
+            included: true
         };
 
         setCourses(curCourses => {
@@ -67,6 +68,18 @@ const CoursesContextProvider: React.FC = props => {
         });
     };
 
+    const changeCourseFilter = (courseId: string, isIncluded: boolean) => {
+        setCourses(curCourses => {
+            const updatedCourses = [...curCourses];
+            const updatedCourseIndex = updatedCourses.findIndex(
+                course => course.id === courseId
+            );
+            const updatedCourse = { ...updatedCourses[updatedCourseIndex], included: isIncluded };
+            updatedCourses[updatedCourseIndex] = updatedCourse;
+            return updatedCourses;
+        });
+    };
+
     return (
             <CoursesContext.Provider
                 value={{
@@ -74,7 +87,8 @@ const CoursesContextProvider: React.FC = props => {
                     addGoal,
                     addCourse,
                     deleteGoal,
-                    updateGoal
+                    updateGoal,
+                    changeCourseFilter
                 }}>
                 {props.children}
             </CoursesContext.Provider>
