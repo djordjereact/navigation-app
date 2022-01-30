@@ -27,15 +27,15 @@ import AddCourseModal from "../components/AddCourseModal";
 export const COURSE_DATA = [
     { id: 'c1', title: 'Ionic + React - The Practical Guide', enrolled: new Date('03/22/2019'), goals: [
             {id: 'c1g1', text: 'Finish the course!'},
-            {id: 'c1g2', text: 'learn a lot'},
+            {id: 'c1g2', text: 'Learn a lot'},
         ] },
     { id: 'c2', title: 'React.js - The Complete Guide', enrolled: new Date('05/12/2019'), goals: [
             {id: 'c2g1', text: 'Finish the course!'},
-            {id: 'c2g2', text: 'learn a lot'},
+            {id: 'c2g2', text: 'Learn a lot'},
         ] },
     { id: 'c3', title: 'JavaScript - The Complete Guide', enrolled: new Date('04/23/2019'), goals: [
             {id: 'c3g1', text: 'Finish the course!'},
-            {id: 'c3g2', text: 'learn a lot'},
+            {id: 'c3g2', text: 'Learn a lot'},
         ] }
 ];
 
